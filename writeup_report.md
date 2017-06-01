@@ -37,8 +37,10 @@ Right Image
 
 
 ## Model Architecture
-The NVIDIA behavioral cloning model archtitecture was replicated in Keras with normalization and cropping layers.
-Details are provided below:
+
+An initial feed forward fully connected network was built to ensure a model could be used to drive the car in autonomous mode. This model was successful in providing steering angles to the simulator.  However, the car was quickly driven off the track.  It was very easy to see that a more powerful network was necessary.
+
+NVIDIA has published a description of an architecture that performs very well for a real world case, nearly identical to our simulated case (https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/).  NVIDIA's architecture was replicated in Keras with additional normalization and cropping layers.  Details are provided below:
 
 Input Shape = (160, 320, 3)
 
@@ -46,15 +48,15 @@ Layer 1: Normalization
 
 Layer 2: Cropping
 
-Layer 3: Convolution (output depth = 24, stride = 2, kernel = (5,5)) w/ relu activation
+Layer 3: Convolution (output depth = 24, stride = 2, kernel = (5,5)) w/ ReLU activation
 
-Layer 4: Convolution (output depth = 36, stride = 2, kernel = (5,5)) w/ relu activation
+Layer 4: Convolution (output depth = 36, stride = 2, kernel = (5,5)) w/ ReLU activation
 
-Layer 5: Convolution (output depth = 48, stride = 2, kernel = (5,5)) w/ relu activation
+Layer 5: Convolution (output depth = 48, stride = 2, kernel = (5,5)) w/ ReLU activation
 
-Layer 6: Convolution (output depth = 64, stride = 1, kernel = (3,3)) w/ relu activation
+Layer 6: Convolution (output depth = 64, stride = 1, kernel = (3,3)) w/ ReLU activation
 
-Layer 7: Convolution (output depth = 64, stride = 1, kernel = (3,3)) w/ relu activation
+Layer 7: Convolution (output depth = 64, stride = 1, kernel = (3,3)) w/ ReLU activation
 
 Layer 8: Fully Connected (output depth = 100)
 
@@ -69,6 +71,12 @@ Layer 11: Fully Connected (output depth = 1)
 The model was trained using the ADAM optimizer to minimize mean squared error (MSE).  A batch size of 32 was used for 5 epochs.
 
 A variety of offset angles were tested to adjust for the orientations of the left and right cameras.  The final offset of 0.1 degrees was chosen based on visually assessing the response of the car as it reaches the edges of the track.  Very large angle offsets result in extreme overcorrections as the car nears the lane edge.  Conversely, if the offset is too small then the car will be unlikely to return to the center of the track.
+
+## Preventing Overfitting
+Overfitting was prevented by limiting the number of epochs to 5, as the model was found to overfit when trained on additional epochs.  
+
+If overfitting were still a problem, then regularization or dropout layers could be applied.  In regularization, a penalty is applied to the cost function which reduces model parameter weights.  In dropout, units are randomly dropped from the model during training.  This method simulates the effect of combining predictions from many thinned networks. (https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf)
+
 
 
 ## Final Results
