@@ -16,7 +16,7 @@ The car was steered manually around the track for several laps in both the clock
 
 The center camera data was further expanded with the images captured using the left and right cameras.  An angle offset was added to the steering angle associated with the left camera (+0.1 degree) and right camera (-0.1 degree) camera images to account for the offsets from the car center line.  
 
-Also, each all images were flipped across the vertical axis.  Corresponding steering angles were adjusted by multiplying by -1.  The final set of images consists of 6x more images than those taken from the center camera.
+Also, all images were flipped across the vertical axis.  Corresponding steering angles were adjusted by multiplying by -1.  The final set of images consists of 6x more images than those taken from the center camera.
 
 Center Image
 
